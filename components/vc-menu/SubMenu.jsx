@@ -67,7 +67,7 @@ const SubMenu = {
       'inline',
     ]).def('vertical'),
     manualRef: PropTypes.func.def(noop),
-    builtinPlacements: PropTypes.object.def({}),
+    builtinPlacements: PropTypes.object.def(() => ({})),
     itemIcon: PropTypes.any,
     expandIcon: PropTypes.any,
   },
@@ -171,6 +171,7 @@ const SubMenu = {
       if (isOpen && (keyCode === KeyCode.UP || keyCode === KeyCode.DOWN)) {
         return menu.onKeyDown(e);
       }
+      return undefined;
     },
 
     onPopupVisibleChange(visible) {
@@ -368,7 +369,7 @@ const SubMenu = {
           deselect,
           openChange,
         },
-        id: this._menuId,
+        id: this.internalMenuId,
       };
       const baseProps = subPopupMenuProps.props;
       const haveRendered = this.haveRendered;
@@ -429,11 +430,11 @@ const SubMenu = {
       [this.getSelectedClassName()]: this.isChildrenSelected(),
     };
 
-    if (!this._menuId) {
+    if (!this.internalMenuId) {
       if (props.eventKey) {
-        this._menuId = `${props.eventKey}$Menu`;
+        this.internalMenuId = `${props.eventKey}$Menu`;
       } else {
-        this._menuId = `$__$${++guid}$Menu`;
+        this.internalMenuId = `$__$${++guid}$Menu`;
       }
     }
 
@@ -466,7 +467,7 @@ const SubMenu = {
     // since corresponding node cannot be found
     if (isOpen) {
       ariaOwns = {
-        'aria-owns': this._menuId,
+        'aria-owns': this.internalMenuId,
       };
     }
     const titleProps = {

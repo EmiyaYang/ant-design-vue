@@ -62,6 +62,8 @@ export const FormProps = {
   layout: PropTypes.oneOf(['horizontal', 'inline', 'vertical']),
   labelCol: PropTypes.shape(ColProps).loose,
   wrapperCol: PropTypes.shape(ColProps).loose,
+  colon: PropTypes.bool,
+  labelAlign: PropTypes.oneOf(['left', 'right']),
   form: PropTypes.object,
   // onSubmit: React.FormEventHandler<any>;
   prefixCls: PropTypes.string,
@@ -128,9 +130,10 @@ const Form = {
   props: initDefaultProps(FormProps, {
     layout: 'horizontal',
     hideRequiredMark: false,
+    colon: true,
   }),
   Item: FormItem,
-  createFormField: createFormField,
+  createFormField,
   create: (options = {}) => {
     return createDOMForm({
       fieldNameProp: 'id',
@@ -148,7 +151,7 @@ const Form = {
   },
   provide() {
     return {
-      FormProps: this.$props,
+      FormContext: this,
       // https://github.com/vueComponent/ant-design-vue/issues/446
       collectFormItemContext:
         this.form && this.form.templateContext
@@ -176,6 +179,11 @@ const Form = {
   watch: {
     form() {
       this.$forceUpdate();
+    },
+  },
+  computed: {
+    vertical() {
+      return this.layout === 'vertical';
     },
   },
   beforeUpdate() {
@@ -220,7 +228,7 @@ const Form = {
       [`${prefixCls}-hide-required-mark`]: hideRequiredMark,
     });
     if (autoFormCreate) {
-      warning(false, '`autoFormCreate` is deprecated. please use `form` instead.');
+      warning(false, 'Form', '`autoFormCreate` is deprecated. please use `form` instead.');
       const DomForm =
         this.DomForm ||
         createDOMForm({
@@ -238,7 +246,7 @@ const Form = {
           data() {
             return {
               children: $slots.default,
-              formClassName: formClassName,
+              formClassName,
               submit: onSubmit,
             };
           },

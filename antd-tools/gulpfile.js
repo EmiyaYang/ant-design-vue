@@ -34,7 +34,7 @@ const esDir = path.join(cwd, 'es');
 function dist(done) {
   rimraf.sync(path.join(cwd, 'dist'));
   process.env.RUN_ENV = 'PRODUCTION';
-  const webpackConfig = require(path.join(cwd, 'build/webpack.build.conf.js'));
+  const webpackConfig = require(path.join(cwd, 'webpack.build.conf.js'));
   webpack(webpackConfig, (err, stats) => {
     if (err) {
       console.error(err.stack || err);
@@ -295,11 +295,12 @@ gulp.task(
 gulp.task(
   'pub',
   gulp.series('check-git', 'compile', done => {
-    if (!process.env.GITHUB_TOKEN) {
-      console.log('no GitHub token found, skip');
-    } else {
-      pub(done);
-    }
+    // if (!process.env.GITHUB_TOKEN) {
+    //   console.log('no GitHub token found, skip');
+    // } else {
+    //   pub(done);
+    // }
+    pub(done);
   }),
 );
 

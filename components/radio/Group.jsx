@@ -100,11 +100,11 @@ export default {
 
     // 如果存在 options, 优先使用
     if (options && options.length > 0) {
-      children = options.map((option, index) => {
+      children = options.map(option => {
         if (typeof option === 'string') {
           return (
             <Radio
-              key={index}
+              key={option}
               prefixCls={prefixCls}
               disabled={props.disabled}
               value={option}
@@ -116,7 +116,7 @@ export default {
         } else {
           return (
             <Radio
-              key={index}
+              key={`radio-group-value-options-${option.value}`}
               prefixCls={prefixCls}
               disabled={option.disabled || props.disabled}
               value={option.value}

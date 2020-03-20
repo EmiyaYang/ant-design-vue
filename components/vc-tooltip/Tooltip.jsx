@@ -21,7 +21,7 @@ export default {
     mouseLeaveDelay: PropTypes.number.def(0.1),
     getTooltipContainer: PropTypes.func,
     destroyTooltipOnHide: PropTypes.bool.def(false),
-    align: PropTypes.object.def({}),
+    align: PropTypes.object.def(() => ({})),
     arrowContent: PropTypes.any.def(null),
     tipId: PropTypes.string,
     builtinPlacements: PropTypes.object,
@@ -73,7 +73,7 @@ export default {
     const triggerProps = {
       props: {
         popupClassName: overlayClassName,
-        prefixCls: prefixCls,
+        prefixCls,
         action: trigger,
         builtinPlacements: placements,
         popupPlacement: placement,
@@ -84,9 +84,9 @@ export default {
         popupAnimation: animation,
         defaultPopupVisible: defaultVisible,
         destroyPopupOnHide: destroyTooltipOnHide,
-        mouseLeaveDelay: mouseLeaveDelay,
+        mouseLeaveDelay,
         popupStyle: overlayStyle,
-        mouseEnterDelay: mouseEnterDelay,
+        mouseEnterDelay,
         ...extraProps,
       },
       on: {
